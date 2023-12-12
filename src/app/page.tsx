@@ -21,7 +21,7 @@ export default async function Home() {
           type="text"
           className="border border-gray-300 text-black rounded px-4 py-2"
           name={ITEM_KEY}
-          placeholder="New to do item"
+          placeholder="New to do item text"
         />
         <button
           type="submit"
