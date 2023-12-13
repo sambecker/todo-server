@@ -1,8 +1,7 @@
 import { kv } from '@vercel/kv';
-import { revalidateTag, unstable_noStore } from 'next/cache';
-
-const ITEMS_KEY = 'items';
-const ITEM_KEY  = 'item';
+import { unstable_noStore } from 'next/cache';
+import { createItem, deleteItem } from './actions';
+import { ITEMS_KEY, ITEM_KEY } from './data';
 
 export default async function Home() {
   unstable_noStore();
@@ -13,11 +12,7 @@ export default async function Home() {
     <div className="space-y-8">
       <form
         className="flex gap-2"
-        action={async (formData: FormData) => {
-          'use server';
-          kv.lpush(ITEMS_KEY, formData.get(ITEM_KEY));
-          revalidateTag('/');
-        }}
+        action={createItem}
       >
         <input
           type="text"
@@ -40,16 +35,12 @@ export default async function Home() {
               <li key={index}>
                 <form
                   className="flex space-x-1"
-                  action={async (formData: FormData) => {
-                    'use server';
-                    kv.lrem(ITEMS_KEY, 0, formData.get(item));
-                    revalidateTag('/');
-                  }}
+                  action={deleteItem}
                 >
                   <input
                     type="text"
                     className="!m-0 !p-0 bg-black text-white outline-none border-none"
-                    name={item}
+                    name={ITEM_KEY}
                     value={item}
                   />
                   <button
