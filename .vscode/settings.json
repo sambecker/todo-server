@@ -1,6 +1,7 @@
 {
   "cSpell.words": [
     "lpush",
-    "lrange"
+    "lrange",
+    "lrem"
   ]
 }
